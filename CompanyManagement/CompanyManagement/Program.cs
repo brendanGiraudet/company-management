@@ -1,4 +1,5 @@
 using CompanyManagement;
+using CompanyManagement.Extensions;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -17,5 +18,8 @@ builder.Services.AddFluxor(config =>
       .UseReduxDevTools();
 
 });
+
+builder.Services.AddServices();
+builder.Services.AddNamedHttpClient();
 
 await builder.Build().RunAsync();

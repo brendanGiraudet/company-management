@@ -1,0 +1,38 @@
+﻿@page "/import"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<h3>Import</h3>
+
+<InputFile OnChange="@LoadFiles" multiple />
+
+@if (ImportState.Value.IsLoading)
+{
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+}
+else
+{
+    <div>
+        @if (ImportState.Value.CreatedClients?.Count() > 0)
+        {
+            foreach (var client in ImportState.Value.CreatedClients)
+            {
+                <div>
+                    <span>Nom : @client.Name</span>
+                    <span>Numero de telephone : @client.PhoneNumber</span>
+                    <span>Email : @client.Email</span>
+                </div>
+
+            }
+        }
+        else
+        {
+            <span>Aucun client de créé</span>
+        }
+    </div>
+}
