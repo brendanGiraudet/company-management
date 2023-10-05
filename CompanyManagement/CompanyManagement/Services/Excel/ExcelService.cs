@@ -6,7 +6,7 @@ namespace CompanyManagement.Services.Excel
 {
     public class ExcelService : IExcelService
     {
-        private long maxFileSize = 1024 * 55;
+        private readonly long maxFileSize = 1024 * 55;
 
         /// <inheritdoc/>
         public async Task<IEnumerable<ClientModel>> GetClientsAsync(IReadOnlyList<IBrowserFile> browserFiles)
@@ -22,7 +22,7 @@ namespace CompanyManagement.Services.Excel
 
                     var client = GetClientFromExcel(fs, "Devis&Factures");
 
-                    clients.Add(client);
+                    if(client != null) clients.Add(client);
                 }
                 catch (Exception ex)
                 {
@@ -33,9 +33,9 @@ namespace CompanyManagement.Services.Excel
             return clients;
         }
 
-        private ClientModel GetClientFromExcel(Stream fileStream, string sheetName)
+        private static ClientModel? GetClientFromExcel(Stream fileStream, string sheetName)
         {
-            ClientModel client = null;
+            ClientModel? client = null;
 
             try
             {

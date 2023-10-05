@@ -9,13 +9,13 @@ namespace CompanyManagement.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [JsonPropertyName("email")]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         [JsonPropertyName("phoneNumber")]
-        public string PhoneNumber { get; set; }
+        public required string PhoneNumber { get; set; }
 
         [JsonPropertyName("adresses")]
         public HashSet<AddressModel>? Addresses { get; set; }

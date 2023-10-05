@@ -7,8 +7,8 @@ namespace CompanyManagement.Store.Import
 {
     public class ImportEffect
     {
-        private IExcelService _excelService;
-        private IClientService _clientService;
+        private readonly IExcelService _excelService;
+        private readonly IClientService _clientService;
 
         public ImportEffect(IExcelService excelService, IClientService clientService)
         {
@@ -20,8 +20,6 @@ namespace CompanyManagement.Store.Import
         public async Task HandleFetchClientsAction(ImportClientsAction action, IDispatcher dispatcher)
         {
             var clients = await _excelService.GetClientsAsync(action.ClientFiles);
-
-            await Console.Out.WriteLineAsync($"handle {clients.Count()}");
 
             var createdClientsResult = await _clientService.CreateAsync(clients);
 

@@ -8,7 +8,7 @@ namespace CompanyManagement.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [JsonPropertyName("label")]
-        public string Label { get; set; }
+        public required string Label { get; set; }
 
         [JsonPropertyName("addresses")]
         public HashSet<AddressModel>? Addresses { get; set; }

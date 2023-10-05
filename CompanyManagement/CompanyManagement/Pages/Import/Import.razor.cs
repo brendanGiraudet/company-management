@@ -8,16 +8,18 @@ namespace CompanyManagement.Pages.Import
 {
     public partial class Import
     {
-        private int maxAllowedFiles = 3;
+        private readonly int maxAllowedFiles = 3;
 
-        [Inject] public IState<ImportState> ImportState { get; set; }
-        [Inject] public IDispatcher Dispatcher { get; set; }
+        [Inject] public required IState<ImportState> ImportState { get; set; }
+        [Inject] public required IDispatcher Dispatcher { get; set; }
 
         private async Task LoadFiles(InputFileChangeEventArgs e)
         {
             var files = e.GetMultipleFiles(maxAllowedFiles);
 
             Dispatcher.Dispatch(new ImportClientsAction(files));
+
+            await Task.CompletedTask;
         }
     }
 }

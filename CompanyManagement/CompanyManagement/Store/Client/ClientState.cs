@@ -8,7 +8,7 @@ namespace CompanyManagement.Store.Client
     {
         public bool IsLoading { get; }
 
-        public IEnumerable<ClientModel> Clients { get; }
+        public IEnumerable<ClientModel> Clients { get; set; } = Enumerable.Empty<ClientModel>();
 
         private ClientState() { }
 

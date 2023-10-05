@@ -12,7 +12,7 @@
 else
 {
     <div>
-        @if (ImportState.Value.CreatedClients?.Count() > 0)
+        @if (ImportState.Value.CreatedClients.Count() > 0)
         {
             foreach (var client in ImportState.Value.CreatedClients)
             {

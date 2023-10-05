@@ -25,7 +25,7 @@ namespace CompanyManagement.Services.Client
 
                 var createdClients = await response.Content.ReadFromJsonAsync<IEnumerable<ClientModel>>();
 
-                return (StatusCodes.Status201Created, createdClients);
+                return (StatusCodes.Status201Created, createdClients ?? Enumerable.Empty<ClientModel>());
 
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace CompanyManagement.Services.Client
             {
                 var clients = await _httpClient.GetFromJsonAsync<IEnumerable<ClientModel>>(ClientApiEndpoints.GetEndpoint);
 
-                return (StatusCodes.Status200OK, clients);
+                return (StatusCodes.Status200OK, clients ?? Enumerable.Empty<ClientModel>());
 
             }
             catch (Exception ex)
