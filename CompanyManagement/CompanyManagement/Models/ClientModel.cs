@@ -9,15 +9,15 @@ namespace CompanyManagement.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [JsonPropertyName("name")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         [JsonPropertyName("email")]
-        public required string Email { get; set; }
+        public string Email { get; set; }
 
         [JsonPropertyName("phoneNumber")]
-        public required string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
-        [JsonPropertyName("adresses")]
+        [JsonPropertyName("addresses")]
         public HashSet<AddressModel>? Addresses { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace CompanyManagement.Services.Excel
 
             try
             {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using var package = new ExcelPackage(fileStream);
                 var worksheet = package.Workbook.Worksheets[sheetName];
                 if (worksheet != null)
@@ -51,9 +52,9 @@ namespace CompanyManagement.Services.Excel
                              new AddressModel()
                              {
                                  AddressTypeId = "6b78e697-99f4-4c55-aa30-3266247c1f22",
-                                 Street = worksheet.Cells["F2"].Text,
-                                 ZipCode = worksheet.Cells["F3"].Text,
-                                 City = worksheet.Cells["F4"].Text,
+                                 Street = worksheet.Cells["F3"].Text,
+                                 ZipCode = worksheet.Cells["F4"].Text,
+                                 City = worksheet.Cells["F5"].Text,
                              }
                          },
                         PhoneNumber = worksheet.Cells["F6"].Text,

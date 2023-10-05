@@ -11,14 +11,12 @@ else
 {
     if(ClientState.Value.Clients.Count() > 0)
     {
-        foreach (var client in ClientState.Value.Clients)
-        {
-            <div>
-                <div>@client.Name</div>
-                <div>@client.Email</div>
-                <div>@client.PhoneNumber</div>
-            </div>
-        }
+        <div class="clients">
+            @foreach (var client in ClientState.Value.Clients)
+            {
+                <ClientCard Client="@client" />
+            }
+        </div>
     }
     else
     {

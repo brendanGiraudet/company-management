@@ -8,16 +8,16 @@ namespace CompanyManagement.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [JsonPropertyName("street")]
-        public required string Street { get; set; }
+        public string Street { get; set; }
 
         [JsonPropertyName("zipCode")]
-        public required string ZipCode { get; set; }
+        public string ZipCode { get; set; }
 
         [JsonPropertyName("city")]
-        public required string City { get; set; }
+        public string City { get; set; }
 
         [JsonPropertyName("addressTypeId")]
-        public required string AddressTypeId { get; set; }
+        public string AddressTypeId { get; set; }
 
         [JsonPropertyName("addressType")]
         public AddressTypeModel? AddressType { get; set; }

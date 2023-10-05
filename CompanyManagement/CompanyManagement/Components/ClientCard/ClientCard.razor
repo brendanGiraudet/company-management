@@ -1,0 +1,6 @@
+<div class="client-card">
+    <div>Nom: @Client.Name</div>
+    <div>Email: @Client.Email</div>
+    <div>Numero: @Client.PhoneNumber</div>
+    <div>Adresse: @Client.Addresses?.FirstOrDefault()?.Street @Client.Addresses?.FirstOrDefault()?.ZipCode @Client.Addresses?.FirstOrDefault()?.City</div>
+</div>
