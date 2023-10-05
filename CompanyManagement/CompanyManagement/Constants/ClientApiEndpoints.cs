@@ -5,5 +5,7 @@
         public const string BasePath = "/clients";
 
         public const string CreationEndpoint = BasePath;
+        
+        public const string GetEndpoint = BasePath;
     }
 }

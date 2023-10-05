@@ -34,5 +34,22 @@ namespace CompanyManagement.Services.Client
                 return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
             }
         }
+        
+        /// <inheritdoc/>
+        public async Task<(int statusCode, IEnumerable<ClientModel> clients)> GetAsync()
+        {
+            try
+            {
+                var clients = await _httpClient.GetFromJsonAsync<IEnumerable<ClientModel>>(ClientApiEndpoints.GetEndpoint);
+
+                return (StatusCodes.Status200OK, clients);
+
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"Error {ex.Message}");
+                return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
+            }
+        }
     }
 }

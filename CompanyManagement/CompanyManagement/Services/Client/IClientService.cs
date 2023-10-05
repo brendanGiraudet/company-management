@@ -10,5 +10,12 @@ namespace CompanyManagement.Services.Client
         /// <param name="clientModels"></param>
         /// <returns></returns>
         Task<(int statusCode, IEnumerable<ClientModel> createdClients)> CreateAsync(IEnumerable<ClientModel> clientModels);
+
+        /// <summary>
+        /// Get clients
+        /// </summary>
+        /// <param name="clientModels"></param>
+        /// <returns></returns>
+        Task<(int statusCode, IEnumerable<ClientModel> clients)> GetAsync();
     }
 }

@@ -1,0 +1,29 @@
+﻿@page "/clients"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<h3>Client</h3>
+
+@if(ClientState.Value.IsLoading)
+{
+    <Loader />
+}
+else
+{
+    if(ClientState.Value.Clients.Count() > 0)
+    {
+        foreach (var client in ClientState.Value.Clients)
+        {
+            <div>
+                <div>@client.Name</div>
+                <div>@client.Email</div>
+                <div>@client.PhoneNumber</div>
+            </div>
+        }
+    }
+    else
+    {
+        <div>
+            Pas de clients
+        </div>
+    }
+}

@@ -7,13 +7,7 @@
 
 @if (ImportState.Value.IsLoading)
 {
-    <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
-    </div>
+    <Loader />
 }
 else
 {
