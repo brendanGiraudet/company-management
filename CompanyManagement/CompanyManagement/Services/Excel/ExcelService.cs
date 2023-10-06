@@ -22,9 +22,9 @@ namespace CompanyManagement.Services.Excel
 
                     var client = GetClientFromExcel(fs, "Devis&Factures");
 
-                    if(client == null) client = GetClientFromExcel(fs, "Devis");
+                    if (client == null) client = GetClientFromExcel(fs, "Devis");
 
-                    if(client != null) clients.Add(client);
+                    if (client != null) clients.Add(client);
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +78,7 @@ namespace CompanyManagement.Services.Excel
             var clientFilePath = @"c:\temp\clients.xlsx";
 
             using var package = new ExcelPackage(clientFilePath);
-            
+
             var sheet = package.Workbook.Worksheets.Add("Clients");
             sheet.Cells["A1"].Value = "Id";
             sheet.Cells["B1"].Value = "Nom";
@@ -88,20 +88,46 @@ namespace CompanyManagement.Services.Excel
 
             for (int i = 0; i < clientModels.Count(); i++)
             {
-                sheet.Cells[$"A{i+ 2}"].Value = clientModels.ElementAt(i).Id;
-                sheet.Cells[$"B{i+ 2}"].Value = clientModels.ElementAt(i).Name;
-                sheet.Cells[$"C{i+ 2}"].Value = clientModels.ElementAt(i).Addresses?.First()?.ToString();
-                sheet.Cells[$"D{i+ 2}"].Value = clientModels.ElementAt(i).PhoneNumber;
-                sheet.Cells[$"E{i+ 2}"].Value = clientModels.ElementAt(i).Email;
+                sheet.Cells[$"A{i + 2}"].Value = clientModels.ElementAt(i).Id;
+                sheet.Cells[$"B{i + 2}"].Value = clientModels.ElementAt(i).Name;
+                sheet.Cells[$"C{i + 2}"].Value = clientModels.ElementAt(i).Addresses?.First()?.ToString();
+                sheet.Cells[$"D{i + 2}"].Value = clientModels.ElementAt(i).PhoneNumber;
+                sheet.Cells[$"E{i + 2}"].Value = clientModels.ElementAt(i).Email;
             }
 
             // Save to file
             package.Save();
 
-            FileStream fRead = new FileStream(clientFilePath, 
+            FileStream fRead = new FileStream(clientFilePath,
                        FileMode.Open, FileAccess.Read, FileShare.Read);
 
             return fRead;
+        }
+
+        public async Task<IEnumerable<ServiceModel>> GetServicesAsync(IReadOnlyList<IBrowserFile> browserFiles)
+        {
+            var services = new List<ServiceModel>();
+
+            // foreach (var file in browserFiles)
+            // {
+            //     try
+            //     {
+            //         await using MemoryStream fs = new();
+            //         await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+            //         var client = GetClientFromExcel(fs, "Devis&Factures");
+
+            //         if (client == null) client = GetClientFromExcel(fs, "Devis");
+
+            //         if (client != null) services.Add(client);
+            //     }
+            //     catch (Exception ex)
+            //     {
+            //         Console.WriteLine($"File: {file.Name} Error: {ex.Message}");
+            //     }
+            // }
+
+            return services;
         }
     }
 }

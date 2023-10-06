@@ -12,6 +12,14 @@ namespace CompanyManagement.Store.Import
         [ReducerMethod]
         public static ImportState ReduceImportClientsResultAction(ImportState state, ImportClientsResultAction action) => new ImportState(isLoading: false, createdClients: action.CreatedClients);
         #endregion
+        
+        #region ImportServices
+        [ReducerMethod(typeof(ImportServicesAction))]
+        public static ImportState ReduceImportServicesAction(ImportState state) => new ImportState(isLoading: true);
+
+        [ReducerMethod]
+        public static ImportState ReduceImportServicesResultAction(ImportState state, ImportServicesResultAction action) => new ImportState(isLoading: false, createdServices: action.CreatedServices);
+        #endregion
 
     }
 }

@@ -3,7 +3,14 @@
 
 <h3>Import</h3>
 
-<InputFile OnChange="@LoadFiles" multiple />
+<div>
+    <span>Import clients</span>
+    <InputFile OnChange="@LoadFiles" multiple />
+</div>
+<div>
+    <span>Import prestations</span>
+    <InputFile OnChange="@LoadFilesForServices" multiple />
+</div>
 
 @if (ImportState.Value.IsLoading)
 {
@@ -17,17 +24,31 @@ else
             <div>Nombre de clients créés : @ImportState.Value.CreatedClients.Count() </div>
             foreach (var client in ImportState.Value.CreatedClients)
             {
-                <div>
-                    <span>Nom : @client.Name</span>
-                    <span>Numero de telephone : @client.PhoneNumber</span>
-                    <span>Email : @client.Email</span>
-                </div>
-
+                <ClientCard Client="@client" />
             }
         }
         else
         {
             <span>Aucun client de créé</span>
+        }
+    </div>
+
+    <div>
+        @if (ImportState.Value.CreatedServices.Count() > 0)
+        {
+            <div>Nombre de prestations créées : @ImportState.Value.CreatedServices.Count() </div>
+            foreach (var service in ImportState.Value.CreatedServices)
+            {
+                <div>
+                    <span>@service.Name</span>
+                    <span>@service.Unit</span>
+                    <span>@service.Price</span>
+                </div>
+            }
+        }
+        else
+        {
+            <span>Aucune prestation de créée</span>
         }
     </div>
 }

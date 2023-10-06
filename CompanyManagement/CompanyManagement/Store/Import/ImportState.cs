@@ -9,12 +9,21 @@ namespace CompanyManagement.Store.Import
         public bool IsLoading { get; }
 
         public IEnumerable<ClientModel> CreatedClients { get; } = Enumerable.Empty<ClientModel>();
+        
+        public IEnumerable<ServiceModel> CreatedServices { get; } = Enumerable.Empty<ServiceModel>();
 
-        private ImportState() { }
-        public ImportState(bool isLoading = false, IEnumerable<ClientModel>? createdClients = null)
+        private ImportState() 
+        { 
+            IsLoading = false;
+            CreatedClients = Enumerable.Empty<ClientModel>();
+            CreatedServices = Enumerable.Empty<ServiceModel>();
+        }
+        
+        public ImportState(bool? isLoading = null, IEnumerable<ClientModel>? createdClients = null, IEnumerable<ServiceModel> createdServices = null)
         {
-            IsLoading = isLoading;
+            IsLoading = isLoading ?? false;
             CreatedClients = createdClients ?? Enumerable.Empty<ClientModel>();
+            CreatedServices = createdServices ?? Enumerable.Empty<ServiceModel>();
         }
     }
 }

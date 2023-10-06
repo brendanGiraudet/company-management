@@ -1,6 +1,7 @@
 ﻿using CompanyManagement.Constants;
 using CompanyManagement.Services.Client;
 using CompanyManagement.Services.Excel;
+using CompanyManagement.Services.Service;
 
 namespace CompanyManagement.Extensions
 {
@@ -10,6 +11,7 @@ namespace CompanyManagement.Extensions
         {
             services.AddTransient<IExcelService, ExcelService>();
             services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IServiceService, ServiceService>();
         }
 
         public static void AddNamedHttpClient(this IServiceCollection services)

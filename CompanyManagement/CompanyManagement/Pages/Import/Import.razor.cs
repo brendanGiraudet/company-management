@@ -21,5 +21,14 @@ namespace CompanyManagement.Pages.Import
 
             await Task.CompletedTask;
         }
+        
+        private async Task LoadFilesForServices(InputFileChangeEventArgs e)
+        {
+            var files = e.GetMultipleFiles(maxAllowedFiles);
+
+            Dispatcher.Dispatch(new ImportServicesAction(files));
+
+            await Task.CompletedTask;
+        }
     }
 }
