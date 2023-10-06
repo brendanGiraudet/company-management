@@ -1,5 +1,7 @@
 .client-card{
     border: 1px solid black;
+    max-width: 20rem;
+    margin: 1rem;
 }
 
 .client-card > div{

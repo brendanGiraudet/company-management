@@ -8,7 +8,7 @@ namespace CompanyManagement.Pages.Import
 {
     public partial class Import
     {
-        private readonly int maxAllowedFiles = 3;
+        private readonly int maxAllowedFiles = 1000;
 
         [Inject] public required IState<ImportState> ImportState { get; set; }
         [Inject] public required IDispatcher Dispatcher { get; set; }

@@ -27,5 +27,10 @@ namespace CompanyManagement.Models
 
         [JsonPropertyName("client")]
         public ClientModel? Client { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Street} {ZipCode} {City}";
+        }
     }
 }

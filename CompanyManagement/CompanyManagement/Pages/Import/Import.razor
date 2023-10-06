@@ -14,6 +14,7 @@ else
     <div>
         @if (ImportState.Value.CreatedClients.Count() > 0)
         {
+            <div>Nombre de clients créés : @ImportState.Value.CreatedClients.Count() </div>
             foreach (var client in ImportState.Value.CreatedClients)
             {
                 <div>

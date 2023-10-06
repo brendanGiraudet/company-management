@@ -6,7 +6,7 @@ namespace CompanyManagement.Services.Excel
 {
     public class ExcelService : IExcelService
     {
-        private readonly long maxFileSize = 1024 * 55;
+        private readonly long maxFileSize = 1024 * 5000;
 
         /// <inheritdoc/>
         public async Task<IEnumerable<ClientModel>> GetClientsAsync(IReadOnlyList<IBrowserFile> browserFiles)
@@ -21,6 +21,8 @@ namespace CompanyManagement.Services.Excel
                     await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
 
                     var client = GetClientFromExcel(fs, "Devis&Factures");
+
+                    if(client == null) client = GetClientFromExcel(fs, "Devis");
 
                     if(client != null) clients.Add(client);
                 }
@@ -68,6 +70,38 @@ namespace CompanyManagement.Services.Excel
             }
 
             return client;
+        }
+
+        public async Task<Stream> GetClientsFileStreamAsync(IEnumerable<ClientModel> clientModels)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var clientFilePath = @"c:\temp\clients.xlsx";
+
+            using var package = new ExcelPackage(clientFilePath);
+            
+            var sheet = package.Workbook.Worksheets.Add("Clients");
+            sheet.Cells["A1"].Value = "Id";
+            sheet.Cells["B1"].Value = "Nom";
+            sheet.Cells["C1"].Value = "Adresse";
+            sheet.Cells["D1"].Value = "Téléphone";
+            sheet.Cells["E1"].Value = "Email";
+
+            for (int i = 0; i < clientModels.Count(); i++)
+            {
+                sheet.Cells[$"A{i+ 2}"].Value = clientModels.ElementAt(i).Id;
+                sheet.Cells[$"B{i+ 2}"].Value = clientModels.ElementAt(i).Name;
+                sheet.Cells[$"C{i+ 2}"].Value = clientModels.ElementAt(i).Addresses?.First()?.ToString();
+                sheet.Cells[$"D{i+ 2}"].Value = clientModels.ElementAt(i).PhoneNumber;
+                sheet.Cells[$"E{i+ 2}"].Value = clientModels.ElementAt(i).Email;
+            }
+
+            // Save to file
+            package.Save();
+
+            FileStream fRead = new FileStream(clientFilePath, 
+                       FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            return fRead;
         }
     }
 }

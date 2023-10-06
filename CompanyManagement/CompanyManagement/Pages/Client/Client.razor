@@ -3,6 +3,11 @@
 
 <h3>Client</h3>
 
+<button @onclick="DownloadFileFromStream">
+    Export en excel
+</button>
+<br/>
+
 @if(ClientState.Value.IsLoading)
 {
     <Loader />
@@ -11,6 +16,7 @@ else
 {
     if(ClientState.Value.Clients.Count() > 0)
     {
+        <div>Nombre de clients : @ClientState.Value.Clients.Count()</div>
         <div class="clients">
             @foreach (var client in ClientState.Value.Clients)
             {
