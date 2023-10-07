@@ -106,26 +106,82 @@ namespace CompanyManagement.Services.Excel
 
         public async Task<IEnumerable<ServiceModel>> GetServicesAsync(IReadOnlyList<IBrowserFile> browserFiles)
         {
-            var services = new List<ServiceModel>();
+            var services = Enumerable.Empty<ServiceModel>();
 
-            // foreach (var file in browserFiles)
-            // {
-            //     try
-            //     {
-            //         await using MemoryStream fs = new();
-            //         await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+            foreach (var file in browserFiles)
+            {
+                try
+                {
+                    await using MemoryStream fs = new();
+                    await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
 
-            //         var client = GetClientFromExcel(fs, "Devis&Factures");
+                    services = GetServicesFromExcel(fs, "Devis&Factures");
 
-            //         if (client == null) client = GetClientFromExcel(fs, "Devis");
+                    if (services == null) services = GetServicesFromExcel(fs, "Devis");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"File: {file.Name} Error: {ex.Message}");
+                }
+            }
 
-            //         if (client != null) services.Add(client);
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         Console.WriteLine($"File: {file.Name} Error: {ex.Message}");
-            //     }
-            // }
+            return services;
+        }
+
+        private static IEnumerable<ServiceModel>? GetServicesFromExcel(Stream fileStream, string sheetName)
+        {
+            IEnumerable<ServiceModel>? services = null;
+
+            try
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                using var package = new ExcelPackage(fileStream);
+                var worksheet = package.Workbook.Worksheets[sheetName];
+                if (worksheet != null)
+                {
+                    services = new List<ServiceModel>();
+
+                    var designationCell = worksheet.Cells.FirstOrDefault(c => c.Text.ToLower() == "Désignation".ToLower());
+
+                    int index = int.Parse(designationCell.Address[1..]) + 2;
+                    var name = worksheet.Cells[$"A{index}"].Text;
+
+                    while (!string.IsNullOrEmpty(name))
+                    {
+                        // NAME
+                        name = worksheet.Cells[$"A{index}"].Text;
+
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            // UNIT
+                            var unit = worksheet.Cells[$"E{index}"].Text;
+                            
+                            // PRICE
+                            var priceAsString = worksheet.Cells[$"G{index}"].Text;
+                            decimal price = 0;
+                            if (!string.IsNullOrEmpty(priceAsString))
+                            {
+                                price = decimal.Parse(priceAsString.Split(' ')[0]);
+                            }
+
+                            var service = new ServiceModel
+                            {
+                                Name = name,
+                                Unit = unit,
+                                Price = price
+                            };
+
+                            services = services.Append(service);
+                        }
+
+                        index = index + 2;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error " + ex.Message);
+            }
 
             return services;
         }
