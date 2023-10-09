@@ -72,6 +72,7 @@ namespace CompanyManagement.Services.Excel
             return client;
         }
 
+        /// <inheritdoc
         public async Task<Stream> GetClientsFileStreamAsync(IEnumerable<ClientModel> clientModels)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -104,6 +105,7 @@ namespace CompanyManagement.Services.Excel
             return fRead;
         }
 
+        /// <inheritdoc
         public async Task<IEnumerable<ServiceModel>> GetServicesAsync(IReadOnlyList<IBrowserFile> browserFiles)
         {
             var services = Enumerable.Empty<ServiceModel>();
@@ -155,7 +157,7 @@ namespace CompanyManagement.Services.Excel
                         {
                             // UNIT
                             var unit = worksheet.Cells[$"E{index}"].Text;
-                            
+
                             // PRICE
                             var priceAsString = worksheet.Cells[$"G{index}"].Text;
                             decimal price = 0;
@@ -184,6 +186,37 @@ namespace CompanyManagement.Services.Excel
             }
 
             return services;
+        }
+
+        /// <inheritdoc
+        public async Task<Stream> GetServicesFileStreamAsync(IEnumerable<ServiceModel> serviceModel)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var serviceFilePath = @"c:\temp\services.xlsx";
+
+            using var package = new ExcelPackage(serviceFilePath);
+
+            var sheet = package.Workbook.Worksheets.Add("Services");
+            sheet.Cells["A1"].Value = "Id";
+            sheet.Cells["B1"].Value = "Nom";
+            sheet.Cells["C1"].Value = "Unité";
+            sheet.Cells["D1"].Value = "Prix";
+
+            for (int i = 0; i < serviceModel.Count(); i++)
+            {
+                sheet.Cells[$"A{i + 2}"].Value = serviceModel.ElementAt(i).Id;
+                sheet.Cells[$"B{i + 2}"].Value = serviceModel.ElementAt(i).Name;
+                sheet.Cells[$"C{i + 2}"].Value = serviceModel.ElementAt(i).Unit;
+                sheet.Cells[$"D{i + 2}"].Value = serviceModel.ElementAt(i).Price;
+            }
+
+            // Save to file
+            package.Save();
+
+            FileStream fRead = new FileStream(serviceFilePath,
+                       FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            return fRead;
         }
     }
 }

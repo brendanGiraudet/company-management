@@ -1,0 +1,33 @@
+﻿@page "/services"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<h3>Service</h3>
+
+<button @onclick="DownloadFileFromStream">
+    Export en excel
+</button>
+<br/>
+
+@if(ServiceState.Value.IsLoading)
+{
+    <Loader />
+}
+else
+{
+    if(ServiceState.Value.Services.Count() > 0)
+    {
+        <div>Nombre de services : @ServiceState.Value.Services.Count()</div>
+        <div class="services">
+            @foreach (var service in ServiceState.Value.Services)
+            {
+                <ServiceCard Service="@service" />
+            }
+        </div>
+    }
+    else
+    {
+        <div>
+            Pas de service
+        </div>
+    }
+}

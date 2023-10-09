@@ -25,5 +25,12 @@ namespace CompanyManagement.Services.Excel
         /// <param name="browserFiles"></param>
         /// <returns>Service list</returns>
         Task<IEnumerable<ServiceModel>> GetServicesAsync(IReadOnlyList<IBrowserFile> browserFiles);
+
+        /// <summary>
+        /// Get the file stream of the excel services file
+        /// </summary>
+        /// <param name="serviceModel"></param>
+        /// <returns></returns>
+        Task<Stream> GetServicesFileStreamAsync(IEnumerable<ServiceModel> serviceModel);
     }
 }
