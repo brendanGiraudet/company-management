@@ -14,6 +14,9 @@
 }
 else
 {
+    <button type="button" @onclick="@(async () => await RedirectToClientForm(Enums.FormMode.Creation))" >Créer un client</button>
+    <br/>
+
     if(ClientState.Value.Clients.Count() > 0)
     {
         <div>Nombre de clients : @ClientState.Value.Clients.Count()</div>

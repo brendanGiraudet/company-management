@@ -14,5 +14,13 @@ namespace CompanyManagement.Store.Client
         public static ClientState ReduceGetClientsResultAction(ClientState state, GetClientsResultAction action) => new(clients: action.Clients);
 #pragma warning restore IDE0060
         #endregion
+
+        #region CreateClient
+        [ReducerMethod(typeof(CreateClientAction))]
+        public static ClientState ReducerCreateClientAction(ClientState state) => new (isLoading: true);
+
+        [ReducerMethod]
+        public static ClientState ReducerCreateClientResultAction(ClientState state, CreateClientResultAction action) => new(isLoading: false, clients: state.Clients.Append(action.ClientModel));
+        #endregion
     }
 }

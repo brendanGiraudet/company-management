@@ -17,7 +17,7 @@ namespace CompanyManagement.Models
         public string City { get; set; }
 
         [JsonPropertyName("addressTypeId")]
-        public string AddressTypeId { get; set; }
+        public string AddressTypeId { get; set; } = "6b78e697-99f4-4c55-aa30-3266247c1f22";
 
         [JsonPropertyName("addressType")]
         public AddressTypeModel? AddressType { get; set; }

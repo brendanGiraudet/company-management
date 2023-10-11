@@ -1,4 +1,5 @@
-﻿using CompanyManagement.Services.Client;
+﻿using CompanyManagement.Models;
+using CompanyManagement.Services.Client;
 using CompanyManagement.Store.Client.Actions;
 using Fluxor;
 
@@ -7,12 +8,10 @@ namespace CompanyManagement.Store.Client
     public class ClientEffect
     {
         private IClientService _clientService;
-        private IDispatcher _dispatcher;
 
-        public ClientEffect(IClientService clientService, IDispatcher dispatcher)
+        public ClientEffect(IClientService clientService)
         {
             _clientService = clientService;
-            _dispatcher = dispatcher;
         }
 
         [EffectMethod(typeof(GetClientsAction))]
@@ -20,8 +19,18 @@ namespace CompanyManagement.Store.Client
         {
             var clientsResult = await _clientService.GetAsync();
 
-            _dispatcher.Dispatch(new GetClientsResultAction(clientsResult.clients));
+            dispatcher.Dispatch(new GetClientsResultAction(clientsResult.clients));
         }
 
+        [EffectMethod]
+        public async Task HandleCreateClientAction(CreateClientAction action, IDispatcher dispatcher)
+        {
+            var client = action.ClientModel;
+            client.Addresses = new() { action.AddressModel };
+
+            var clientsResult = await _clientService.CreateAsync(new List<ClientModel>() { client });
+
+            dispatcher.Dispatch(new CreateClientResultAction(clientsResult.createdClients.First()));
+        }
     }
 }
