@@ -4,3 +4,7 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
+
+.clients ::deep .card>div {
+    margin: 1rem;
+}

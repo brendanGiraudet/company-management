@@ -32,5 +32,23 @@ namespace CompanyManagement.Store.Client
 
             dispatcher.Dispatch(new CreateClientResultAction(clientsResult.createdClients.First()));
         }
+        
+        [EffectMethod]
+        public async Task HandleUpdateClientAction(UpdateClientAction action, IDispatcher dispatcher)
+        {
+            var client = action.ClientModel;
+
+            var updateResult = await _clientService.UpdateAsync(client);
+
+            dispatcher.Dispatch(new UpdateClientResultAction(updateResult.updatedClient));
+        }
+        
+        [EffectMethod]
+        public async Task HandleDeleteClientAction(DeleteClientAction action, IDispatcher dispatcher)
+        {
+            var deleteResult = await _clientService.DeleteAsync(action.ClientId);
+
+            dispatcher.Dispatch(new DeleteClientResultAction(deleteResult.deletedClientId));
+        }
     }
 }

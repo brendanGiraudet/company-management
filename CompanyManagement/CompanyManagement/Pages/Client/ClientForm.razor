@@ -5,52 +5,66 @@
 
 <h3>Client form</h3>
 
-<button type="button" @onclick="@(async () => await RedirectToClientList())">Retour à la liste</button>
+@if (ClientState.Value.Client == null && !string.IsNullOrEmpty(ClientId))
+{
+    <p>Pas de client avec l'Id @ClientId</p>
+}
+else
+{
+    <button type="button" @onclick="@(async () => await RedirectToClientList())">Retour à la liste</button>
 
-<div>
-    <EditForm Model="ClientState.Value.Client" OnValidSubmit="@SaveClient">
-        <DataAnnotationsValidator />
+    <div>
+        <EditForm Model="ClientState.Value.Client" OnValidSubmit="@SaveClient">
+            <DataAnnotationsValidator />
 
-        @* Name *@
-        <div>
-            <label for="@nameof(ClientState.Value.Client.Name)">Nom :</label>
-            <InputText @bind-Value="@ClientState.Value.Client.Name" />
-        </div>
+            @* Name *@
+            <div class="form-element">
+                <label for="@nameof(ClientState.Value.Client.Name)">Nom :</label>
+                <InputText @bind-Value="@ClientState.Value.Client.Name" />
+            </div>
 
-        @* Email *@
-        <div>
-            <label for="@nameof(ClientState.Value.Client.Email)">Email :</label>
-            <InputText @bind-Value="@ClientState.Value.Client.Email" />
-        </div>
+            @* Email *@
+            <div class="form-element">
+                <label for="@nameof(ClientState.Value.Client.Email)">Email :</label>
+                <InputText @bind-Value="@ClientState.Value.Client.Email" />
+            </div>
 
-        @* PhoneNumber *@
-        <div>
-            <label for="@nameof(ClientState.Value.Client.PhoneNumber)">Numéro de téléphone :</label>
-            <InputText @bind-Value="@ClientState.Value.Client.PhoneNumber" />
-        </div>
+            @* PhoneNumber *@
+            <div class="form-element">
+                <label for="@nameof(ClientState.Value.Client.PhoneNumber)">Numéro de téléphone :</label>
+                <InputText @bind-Value="@ClientState.Value.Client.PhoneNumber" />
+            </div>
 
-        @* Street *@
-        <div>
-            <label for="@nameof(ClientState.Value.Address.Street)">Rue :</label>
-            <InputText @bind-Value="@ClientState.Value.Address.Street" />
-        </div>
+            @* Street *@
+            <div class="form-element">
+                <label for="@nameof(ClientState.Value.Address.Street)">Rue :</label>
+                <InputText @bind-Value="@ClientState.Value.Address.Street" />
+            </div>
 
-        @* ZipCode *@
-        <div>
-            <label for="@nameof(ClientState.Value.Address.ZipCode)">Code postal :</label>
-            <InputText @bind-Value="@ClientState.Value.Address.ZipCode" />
-        </div>
+            @* ZipCode *@
+            <div class="form-element">
+                <label for="@nameof(ClientState.Value.Address.ZipCode)">Code postal :</label>
+                <InputText @bind-Value="@ClientState.Value.Address.ZipCode" />
+            </div>
 
-        @* City *@
-        <div>
-            <label for="@nameof(ClientState.Value.Address.City)">Ville :</label>
-            <InputText @bind-Value="@ClientState.Value.Address.City" />
-        </div>
+            @* City *@
+            <div class="form-element">
+                <label for="@nameof(ClientState.Value.Address.City)">Ville :</label>
+                <InputText @bind-Value="@ClientState.Value.Address.City" />
+            </div>
 
-        @* Submit *@
-        <div>
-            <Button Type="submit" >Submit</Button>
-        </div>
+            @* Submit *@
+            <div class="form-element">
+                <Button Type="submit">Submit</Button>
+            </div>
 
-    </EditForm>
-</div>
+            @if (CanShowDeletedButton)
+            {
+                <div class="form-element">
+                    <Button Type="button" @onclick="@(async () => await DeleteAsync())">Supprimer</Button>
+                </div>
+            }
+
+        </EditForm>
+    </div>
+}

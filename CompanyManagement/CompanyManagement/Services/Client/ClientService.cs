@@ -51,5 +51,45 @@ namespace CompanyManagement.Services.Client
                 return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
             }
         }
+
+        /// <inheritdoc/>
+        public async Task<(int statusCode, ClientModel? updatedClient)> UpdateAsync(ClientModel clientModel)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync(ClientApiEndpoints.UpdateEndpoint, clientModel);
+
+                if (!response.IsSuccessStatusCode) return (StatusCodes.Status500InternalServerError, null);
+
+                var updatedClient = await response.Content.ReadFromJsonAsync<ClientModel>();
+
+                return (StatusCodes.Status201Created, updatedClient ?? new());
+
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"Error {ex.Message}");
+                return (StatusCodes.Status500InternalServerError, null);
+            }
+        }
+        
+        /// <inheritdoc/>
+        public async Task<(int statusCode, string? deletedClientId)> DeleteAsync(string clientId)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync(ClientApiEndpoints.GetDeleteEndpoint(clientId));
+
+                if (!response.IsSuccessStatusCode) return (StatusCodes.Status500InternalServerError, null);
+
+                return (StatusCodes.Status200OK, clientId);
+
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"Error {ex.Message}");
+                return (StatusCodes.Status500InternalServerError, null);
+            }
+        }
     }
 }

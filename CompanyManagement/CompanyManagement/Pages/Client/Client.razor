@@ -6,24 +6,35 @@
 <button @onclick="DownloadFileFromStream">
     Export en excel
 </button>
-<br/>
+<br />
+<br />
 
-@if(ClientState.Value.IsLoading)
+@if (ClientState.Value.IsLoading)
 {
     <Loader />
 }
 else
 {
-    <button type="button" @onclick="@(async () => await RedirectToClientForm(Enums.FormMode.Creation))" >Créer un client</button>
-    <br/>
+    <button type="button" @onclick="@(async () => await RedirectToClientForm(Enums.FormMode.Creation))">Créer un
+        client</button>
+    <br />
+    <br />
 
-    if(ClientState.Value.Clients.Count() > 0)
+    if (ClientState.Value.Clients.Count() > 0)
     {
         <div>Nombre de clients : @ClientState.Value.Clients.Count()</div>
         <div class="clients">
             @foreach (var client in ClientState.Value.Clients)
             {
-                <ClientCard Client="@client" />
+                <Card OnClickCallback="@(async () => await RedirectToClientForm(Enums.FormMode.Update, client.Id))">
+                    <Content>
+                        <div>Nom: @client.Name</div>
+                        <div>Email: @client.Email</div>
+                        <div>Numero: @client.PhoneNumber</div>
+                        <div>Adresse: @client.Addresses?.FirstOrDefault()?.Street @client.Addresses?.FirstOrDefault()?.ZipCode
+                            @client.Addresses?.FirstOrDefault()?.City</div>
+                    </Content>
+                </Card>
             }
         </div>
     }

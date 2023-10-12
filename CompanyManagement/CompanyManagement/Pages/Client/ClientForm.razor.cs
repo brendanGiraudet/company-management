@@ -21,9 +21,12 @@ namespace CompanyManagement.Pages.Client
 
         public FormMode FormMode => (FormMode)Enum.Parse(typeof(FormMode), Action);
 
+        private bool CanShowDeletedButton => FormMode == FormMode.Update;
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            Dispatcher.Dispatch(new GetClientAction(ClientId));
         }
 
         private async Task RedirectToClientList()
@@ -46,6 +49,15 @@ namespace CompanyManagement.Pages.Client
                 default:
                     break;
             }
+
+            NavigationManager.NavigateTo(PagesUrl.ClientsUrl);
+
+            await Task.CompletedTask;
+        }
+
+        private async Task DeleteAsync()
+        {
+            Dispatcher.Dispatch(new DeleteClientAction(ClientState.Value.Client.Id));
 
             NavigationManager.NavigateTo(PagesUrl.ClientsUrl);
 
