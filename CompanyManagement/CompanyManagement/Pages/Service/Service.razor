@@ -6,21 +6,33 @@
 <button @onclick="DownloadFileFromStream">
     Export en excel
 </button>
-<br/>
+<br />
+<br />
 
-@if(ServiceState.Value.IsLoading)
+@if (ServiceState.Value.IsLoading)
 {
     <Loader />
 }
 else
 {
-    if(ServiceState.Value.Services.Count() > 0)
+    <button type="button" @onclick="@(async () => await RedirectToServiceForm(Enums.FormMode.Creation))">Créer un
+        service</button>
+    <br />
+    <br />
+
+    if (ServiceState.Value.Services.Count() > 0)
     {
         <div>Nombre de services : @ServiceState.Value.Services.Count()</div>
         <div class="services">
             @foreach (var service in ServiceState.Value.Services)
             {
-                <ServiceCard Service="@service" />
+                <Card OnClickCallback="@(async () => await RedirectToServiceForm(Enums.FormMode.Update, service.Id))">
+                    <Content>
+                        <div>Nom: @service.Name</div>
+                        <div>Unité: @service.Unit</div>
+                        <div>Prix: @service.Price</div>
+                    </Content>
+                </Card>
             }
         </div>
     }

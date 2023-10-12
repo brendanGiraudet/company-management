@@ -4,6 +4,8 @@ using CompanyManagement.Store.Service;
 using Fluxor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using CompanyManagement.Enums;
+using CompanyManagement.Constants;
 
 namespace CompanyManagement.Pages.Service
 {
@@ -16,6 +18,8 @@ namespace CompanyManagement.Pages.Service
         [Inject] public required IJSRuntime JS { get; set; }
         
         [Inject] public required IExcelService ExcelService { get; set; }
+
+        [Inject] public NavigationManager NavigationManager { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -37,6 +41,13 @@ namespace CompanyManagement.Pages.Service
             using var streamRef = new DotNetStreamReference(stream: fileStream);
 
             await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+        }
+
+        private async Task RedirectToServiceForm(FormMode formMode, string? serviceId = null)
+        {
+            NavigationManager.NavigateTo(PagesUrl.GetServiceFormUrl(formMode, serviceId));
+
+            await Task.CompletedTask;
         }
     }
 }

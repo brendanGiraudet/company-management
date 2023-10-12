@@ -1,0 +1,52 @@
+﻿@page "/services/{Action}"
+@page "/services/{Action}/{ServiceId}"
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<h3>Service form</h3>
+
+@if (ServiceState.Value.Service == null && !string.IsNullOrEmpty(ServiceId))
+{
+    <p>Pas de service avec l'Id @ServiceId</p>
+}
+else
+{
+    <button type="button" @onclick="@(async () => await RedirectToServiceList())">Retour à la liste</button>
+
+    <div>
+        <EditForm Model="ServiceState.Value.Service" OnValidSubmit="@SaveService">
+            <DataAnnotationsValidator />
+
+            @* Name *@
+            <div class="form-element">
+                <label for="@nameof(ServiceState.Value.Service.Name)">Nom :</label>
+                <InputText @bind-Value="@ServiceState.Value.Service.Name" />
+            </div>
+
+            @* Unit *@
+            <div class="form-element">
+                <label for="@nameof(ServiceState.Value.Service.Unit)">Unité :</label>
+                <InputText @bind-Value="@ServiceState.Value.Service.Unit" />
+            </div>
+
+            @* Price *@
+            <div class="form-element">
+                <label for="@nameof(ServiceState.Value.Service.Price)">Prix :</label>
+                <InputNumber @bind-Value="@ServiceState.Value.Service.Price" />
+            </div>
+
+            @* Submit *@
+            <div class="form-element">
+                <Button Type="submit">Submit</Button>
+            </div>
+
+            @if (CanShowDeletedButton)
+            {
+                <div class="form-element">
+                    <Button Type="button" @onclick="@(async () => await DeleteAsync())">Supprimer</Button>
+                </div>
+            }
+
+        </EditForm>
+    </div>
+}

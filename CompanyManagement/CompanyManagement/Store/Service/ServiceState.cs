@@ -9,13 +9,21 @@ namespace CompanyManagement.Store.Service
         public bool IsLoading { get; }
 
         public IEnumerable<ServiceModel> Services { get; set; } = Enumerable.Empty<ServiceModel>();
+        
+        public ServiceModel Service { get; }
 
-        private ServiceState() { }
+        private ServiceState() 
+        { 
+            IsLoading = false;
+            Services = Enumerable.Empty<ServiceModel>();
+            Service = new();
+        }
 
-        public ServiceState(bool? isLoading = null, IEnumerable<ServiceModel>? services = null)
+        public ServiceState(bool? isLoading = null, IEnumerable<ServiceModel>? services = null, ServiceModel? service = null)
         {
             IsLoading = isLoading ?? false;
             Services = services ?? Enumerable.Empty<ServiceModel>();
+            Service = service ?? new();
         }
     }
 }
