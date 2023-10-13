@@ -21,6 +21,14 @@ namespace CompanyManagement.Store.Service
             services: state.Services, service: state.Services.FirstOrDefault(c => c.Id == action.ServiceId));
         #endregion
 
+        #region CreateService
+        [ReducerMethod(typeof(CreateServiceAction))]
+        public static ServiceState ReducerCreateServiceAction(ServiceState state) => new(isLoading: true);
+
+        [ReducerMethod]
+        public static ServiceState ReducerCreateServiceResultAction(ServiceState state, CreateServiceResultAction action) => new(isLoading: false, services: state.Services.Append(action.ServiceModel));
+        #endregion
+
         #region UpdateService
         [ReducerMethod(typeof(UpdateServiceAction))]
         public static ServiceState ReducerUpdateServiceAction(ServiceState state) => new(isLoading: true,
